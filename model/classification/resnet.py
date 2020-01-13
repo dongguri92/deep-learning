@@ -79,3 +79,17 @@ class Resnet():
         x = layers.Dense(num_classes, kernel_initializer=initializers.random_normal(stddev=0.01), activation = 'softmax', name = (name + "_prediction"))(x)
 
         return (x)
+
+
+#model
+model = Resnet(num_ch, input_shape, num_classes).model()
+
+#adam
+adam = optimizers.Adam(lr=lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+
+#compile
+model.compile(loss = 'categorical_crossentropy',
+             optimizer = adam, metrics = ['accuracy'])
+
+#learning
+history = model.fit(train_x, train_y, validation_split=0.2, epochs = epochs, batch_size = batch_size)
